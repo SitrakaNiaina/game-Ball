@@ -1,5 +1,7 @@
 package panel;
 
+import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
@@ -14,10 +16,10 @@ public class Panel extends JFrame {
 
     private Panier panier;
     private Balle balle;
+    private GameCanvas gameCanvas;
     private Timer timer;
     private int score = 0;
     private boolean gameOver = false;
-    private GameCanvas gameCanvas;
 
     private void initLayout() {
         setTitle("Game Play");
@@ -30,20 +32,54 @@ public class Panel extends JFrame {
 
     public Panel() {
         initLayout();
-        
-        panier = new Panier(new ImageIcon("C:/Users/Sitraka/Pictures/PNG/panier.png"),200, 60, 50);
-        balle = new Balle(200, 0);
 
-        gameCanvas = new GameCanvas(panier, balle);
+        /**
+         * Create a new basket
+         */
+        panier = new Panier(
+                new ImageIcon("C:/Users/Sitraka/Pictures/PNG/panier.png"),
+                160,
+                60,
+                50);
+
+        /**
+         * Create a new Ball
+         */
+        balle = new Balle(
+                new ImageIcon("C:/Users/Sitraka/Pictures/PNG/balle.png"),
+                200,
+                0);
+
+        /**
+         * Draw the plateforme Game Center
+         */
+        gameCanvas = new GameCanvas(panier, balle, this);
         add(gameCanvas);
-        
+
         addKeyListener(new ActionGame(panier, balle, this));
+        this.startGame();
         setVisible(true);
     }
 
-    public void startGame() {
+    private void startGame() {
         resetBall();
-        timer = new Timer(30, (ActionListener) this);
+        timer = new Timer(balle.getBalleSpeed(), new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                balle.moveDown();
+                if (panier.catchBall(balle)) {
+                    score++;
+                    resetBall();
+                }
+
+                if (balle.isOutOfBounds(panier)) {
+                    gameOver = true;
+                    timer.stop();
+                }
+                gameCanvas.repaint();
+            }
+        });
         timer.start();
     }
 
@@ -51,5 +87,9 @@ public class Panel extends JFrame {
         Random random = new Random();
         int startX = random.nextInt(400 - balle.getDiameter());
         balle.resetPositionBall(startX, 0);
+    }
+
+    public Image getBackgroundImage() {
+        return new ImageIcon("C:/Users/Sitraka/Pictures/PNG/plateforme.jpg").getImage();
     }
 }
