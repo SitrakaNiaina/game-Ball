@@ -1,40 +1,55 @@
 package panel;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.util.Random;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.Timer;
+
+import entity.Balle;
+import entity.Panier;
 
 public class Panel extends JFrame {
-    JPanel writeHead = new JPanel();
-    JPanel writeBody = new JPanel();
-    JButton one = new JButton("1");
 
-    JLabel response = new JLabel("100000");
+    private Panier panier;
+    private Balle balle;
+    private Timer timer;
+    private int score = 0;
+    private boolean gameOver = false;
+    private GameCanvas gameCanvas;
+
+    private void initLayout() {
+        setTitle("Game Play");
+        setSize(400, 600);
+        setResizable(false);
+        setLocation(800, 150);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setAlwaysOnTop(true);
+    }
 
     public Panel() {
-        setTitle("Game Play");
-        setSize(1000, 600);
-        setResizable(false);
-        setLocation(600, 50);
-        getContentPane().setLayout(new FlowLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-
-        writeHead.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        writeHead.setPreferredSize(new Dimension(380, 50));
+        initLayout();
         
-        writeHead.add(response);
-        add(writeHead);
+        panier = new Panier(new ImageIcon("C:/Users/Sitraka/Pictures/PNG/panier.png"),200, 60, 50);
+        balle = new Balle(200, 0);
 
-        writeBody.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        writeBody.setPreferredSize(new Dimension(380, 400));
+        gameCanvas = new GameCanvas(panier, balle);
+        add(gameCanvas);
+        
+        addKeyListener(new ActionGame(panier, balle, this));
+        setVisible(true);
+    }
 
-        add(writeBody);
+    public void startGame() {
+        resetBall();
+        timer = new Timer(30, (ActionListener) this);
+        timer.start();
+    }
+
+    private void resetBall() {
+        Random random = new Random();
+        int startX = random.nextInt(400 - balle.getDiameter());
+        balle.resetPositionBall(startX, 0);
     }
 }
