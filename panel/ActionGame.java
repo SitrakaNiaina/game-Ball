@@ -5,30 +5,45 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import entity.Balle;
+import entity.Panier;
+
 public class ActionGame implements ActionListener, KeyListener{
+
+    private Panier panier;
+    private Balle balle;
+    private Panel panel;
+
+    public ActionGame(Panier panier, Balle balle, Panel panel) {
+        this.panier = panier;
+        this.balle = balle;
+        this.panel = panel;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            if (panier.getPositionXPanier() > panel.getAlignmentX()) {
+                panier.setPositionXPanier(panier.getPositionXPanier() - 10);
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            if (panier.getPositionXPanier() < (panel.getWidth() - panier.getWidthPanier() - 20)) {
+                panier.setPositionXPanier(panier.getPositionXPanier() + 10);
+            }
+        }
+        panel.repaint();
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
     
 }
