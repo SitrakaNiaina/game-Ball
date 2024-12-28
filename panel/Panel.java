@@ -7,12 +7,17 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import entity.Balle;
 import entity.Panier;
 
 public class Panel extends JFrame {
+
+    private JPanel panelGameOver = new JPanel();
+    private JLabel label = new JLabel("GAME OVER");
 
     private Panier panier;
     private Balle balle;
@@ -37,7 +42,7 @@ public class Panel extends JFrame {
          * Create a new basket
          */
         panier = new Panier(
-                new ImageIcon("C:/Users/Sitraka/Pictures/PNG/panier.png"),
+                new ImageIcon("./img/panier.png"),
                 160,
                 60,
                 50);
@@ -46,7 +51,7 @@ public class Panel extends JFrame {
          * Create a new Ball
          */
         balle = new Balle(
-                new ImageIcon("C:/Users/Sitraka/Pictures/PNG/balle.png"),
+                new ImageIcon("./img/balle.png"),
                 200,
                 0);
 
@@ -58,6 +63,11 @@ public class Panel extends JFrame {
 
         addKeyListener(new ActionGame(panier, balle, this));
         this.startGame();
+
+        // panelGameOver.setSize(400, 100);
+        // panelGameOver.add(label);
+        // add(panelGameOver);
+
         setVisible(true);
     }
 
@@ -90,6 +100,6 @@ public class Panel extends JFrame {
     }
 
     public Image getBackgroundImage() {
-        return new ImageIcon("C:/Users/Sitraka/Pictures/PNG/plateforme.jpg").getImage();
+        return new ImageIcon("./img/plateforme.jpg").getImage();
     }
 }

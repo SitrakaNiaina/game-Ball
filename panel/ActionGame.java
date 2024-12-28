@@ -11,6 +11,7 @@ import entity.Panier;
 public class ActionGame implements ActionListener, KeyListener{
 
     private Panier panier;
+    @SuppressWarnings("unused")
     private Balle balle;
     private Panel panel;
 
