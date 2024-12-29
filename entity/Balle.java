@@ -63,7 +63,7 @@ public class Balle {
     }
 
     public void moveDown() {
-        this.setPositionYBalle(this.getPositionYBalle() + 1);
+        this.setPositionYBalle(this.getPositionYBalle() + this.getBalleSpeed());
     }
 
     public boolean isOutOfBounds(Panier panier) {
