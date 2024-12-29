@@ -11,7 +11,6 @@ import entity.Panier;
 public class ActionGame implements ActionListener, KeyListener{
 
     private Panier panier;
-    @SuppressWarnings("unused")
     private Balle balle;
     private Panel panel;
 
@@ -27,14 +26,15 @@ public class ActionGame implements ActionListener, KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_ENTER)
+            panel.startGame();
+
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if (panier.getPositionXPanier() > panel.getAlignmentX()) {
-                panier.setPositionXPanier(panier.getPositionXPanier() - 10);
-            }
+            if (panier.getPositionXPanier() > panel.getAlignmentX())
+                panier.setPositionXPanier(panier.getPositionXPanier() - (10*(balle.getBalleSpeed()/2)));
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if (panier.getPositionXPanier() < (panel.getWidth() - panier.getWidthPanier() - 20)) {
-                panier.setPositionXPanier(panier.getPositionXPanier() + 10);
-            }
+            if (panier.getPositionXPanier() < (panel.getWidth() - panier.getWidthPanier() - 20))
+                panier.setPositionXPanier(panier.getPositionXPanier() + (10*(balle.getBalleSpeed()/2)));
         }
         panel.repaint();
     }
