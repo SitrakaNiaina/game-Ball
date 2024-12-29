@@ -1,13 +1,15 @@
 package panel;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -17,26 +19,26 @@ import entity.Panier;
 public class Panel extends JFrame {
 
     private JPanel panelGameOver = new JPanel();
-    private JLabel label = new JLabel("GAME OVER");
 
     private Panier panier;
     private Balle balle;
     private GameCanvas gameCanvas;
     private Timer timer;
-    private int score = 0;
-    private boolean gameOver = false;
+    // private int score = 0;
+    // private boolean gameOver = false;
 
     private void initLayout() {
-        setTitle("Game Play");
-        setSize(400, 600);
-        setResizable(false);
-        setLocation(800, 150);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setAlwaysOnTop(true);
+        this.setTitle("Game Play");
+        this.setSize(400, 650);
+        this.setResizable(false);
+        this.setLocation(800, 150);
+        this.getContentPane().setLayout(new FlowLayout());
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setAlwaysOnTop(true);
     }
 
     public Panel() {
-        initLayout();
+        this.initLayout();
 
         /**
          * Create a new basket
@@ -55,18 +57,28 @@ public class Panel extends JFrame {
                 200,
                 0);
 
+        JButton startButton = new StartButton("Star Game");
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startGame();
+                requestFocusInWindow();
+            }
+        });
+        // panelGameOver.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        panelGameOver.setPreferredSize(new Dimension(400, 50));
+        panelGameOver.add(startButton);
+        add(panelGameOver);
+
         /**
          * Draw the plateforme Game Center
          */
         gameCanvas = new GameCanvas(panier, balle, this);
+        gameCanvas.setPreferredSize(new Dimension(400, 600));
         add(gameCanvas);
 
         addKeyListener(new ActionGame(panier, balle, this));
-        this.startGame();
-
-        // panelGameOver.setSize(400, 100);
-        // panelGameOver.add(label);
-        // add(panelGameOver);
+        setFocusable(true);
 
         setVisible(true);
     }
@@ -79,12 +91,12 @@ public class Panel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 balle.moveDown();
                 if (panier.catchBall(balle)) {
-                    score++;
+                    // score++;
                     resetBall();
                 }
 
                 if (balle.isOutOfBounds(panier)) {
-                    gameOver = true;
+                    // gameOver = true;
                     timer.stop();
                 }
                 gameCanvas.repaint();
