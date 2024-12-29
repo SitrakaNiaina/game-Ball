@@ -10,6 +10,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -18,6 +19,7 @@ import entity.Panier;
 
 public class Panel extends JFrame {
 
+    // private JLayeredPane layeredPane = new JLayeredPane();
     private JPanel panelGameOver = new JPanel();
 
     private Panier panier;
@@ -30,7 +32,7 @@ public class Panel extends JFrame {
     private void initLayout() {
         this.setTitle("Game Play");
         this.setSize(400, 650);
-        this.setResizable(false);
+        this.setResizable(true);
         this.setLocation(800, 150);
         this.getContentPane().setLayout(new FlowLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,6 +58,8 @@ public class Panel extends JFrame {
                 new ImageIcon("./img/balle.png"),
                 200,
                 0);
+        
+        // layeredPane.setBounds(0,  0,  400, 600);
 
         JButton startButton = new StartButton("Star Game");
         startButton.addActionListener(new ActionListener() {
@@ -68,7 +72,9 @@ public class Panel extends JFrame {
         // panelGameOver.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panelGameOver.setPreferredSize(new Dimension(400, 50));
         panelGameOver.add(startButton);
+
         add(panelGameOver);
+        // layeredPane.add(panelGameOver, Integer.valueOf(0));
 
         /**
          * Draw the plateforme Game Center
@@ -76,29 +82,26 @@ public class Panel extends JFrame {
         gameCanvas = new GameCanvas(panier, balle, this);
         gameCanvas.setPreferredSize(new Dimension(400, 600));
         add(gameCanvas);
+        // layeredPane.add(gameCanvas, Integer.valueOf(1));
+        // add(layeredPane);
 
         addKeyListener(new ActionGame(panier, balle, this));
         setFocusable(true);
-
         setVisible(true);
     }
 
-    private void startGame() {
-        resetBall();
+    public void startGame() {
         timer = new Timer(balle.getBalleSpeed(), new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 balle.moveDown();
-                if (panier.catchBall(balle)) {
-                    // score++;
+                if (panier.catchBall(balle))
                     resetBall();
-                }
 
-                if (balle.isOutOfBounds(panier)) {
-                    // gameOver = true;
+                if (balle.isOutOfBounds(panier))
                     timer.stop();
-                }
+                
                 gameCanvas.repaint();
             }
         });
@@ -107,7 +110,7 @@ public class Panel extends JFrame {
 
     private void resetBall() {
         Random random = new Random();
-        int startX = random.nextInt(400 - balle.getDiameter());
+        int startX = random.nextInt(gameCanvas.getWidth() - balle.getDiameter());
         balle.resetPositionBall(startX, 0);
     }
 
