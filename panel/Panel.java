@@ -2,6 +2,7 @@ package panel;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +11,8 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
+import javax.swing.JLabel;
+// import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -21,12 +23,13 @@ public class Panel extends JFrame {
 
     // private JLayeredPane layeredPane = new JLayeredPane();
     private JPanel panelGameOver = new JPanel();
+    private int score = 0;
+    private JLabel labelScore = new JLabel("Score : " + score);
 
     private Panier panier;
     private Balle balle;
     private GameCanvas gameCanvas;
     private Timer timer;
-    // private int score = 0;
     // private boolean gameOver = false;
 
     private void initLayout() {
@@ -71,7 +74,9 @@ public class Panel extends JFrame {
         });
         // panelGameOver.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panelGameOver.setPreferredSize(new Dimension(400, 50));
+        panelGameOver.setLayout(new GridLayout(1, 2));
         panelGameOver.add(startButton);
+        panelGameOver.add(labelScore);
 
         add(panelGameOver);
         // layeredPane.add(panelGameOver, Integer.valueOf(0));
@@ -96,13 +101,23 @@ public class Panel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 balle.moveDown();
-                if (panier.catchBall(balle))
+                if (panier.catchBall(balle)) {
+                    score += 1;
+                    labelScore.setText("Score : " + score);
                     resetBall();
+                }
 
                 if (balle.isOutOfBounds(panier))
                     timer.stop();
-                
+
+                this.updateLevel();
                 gameCanvas.repaint();
+            }
+
+            private void updateLevel(){
+                if(score > (balle.getBalleSpeed() * 10)) {
+                    balle.setBalleSpeed(balle.getBalleSpeed() + 1);
+                }
             }
         });
         timer.start();

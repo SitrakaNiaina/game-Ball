@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 public class Balle {
     private double position_x_balle;
     private double position_y_balle;
-    private int balle_speed = 5;
+    private int balle_speed = 2;
     private int diameter = 30;
     private Image image;
 

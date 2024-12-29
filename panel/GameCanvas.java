@@ -21,7 +21,7 @@ public class GameCanvas extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.drawImage(panel.getBackgroundImage(), 0, 0, panel.getWidth(), panel.getHeight(), null);
+        g.drawImage(panel.getBackgroundImage(), 0, 0, this.getWidth(), this.getHeight(), null);
         g.drawImage(balle.getImageBall(), ((int)balle.getPositionXBalle()), ((int)balle.getPositionYBalle()), balle.getDiameter(), balle.getDiameter(), null);
         g.drawImage(panier.getImagePanier(),((int)panier.getPositionXPanier()), ((int)panier.getPositionYPanier()), panier.getWidthPanier(), panier.getHeightPanier(), null);
     }
