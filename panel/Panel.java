@@ -18,6 +18,7 @@ import javax.swing.Timer;
 
 import entity.Balle;
 import entity.Panier;
+import entity.SoundPlayer;
 
 public class Panel extends JFrame {
 
@@ -104,6 +105,7 @@ public class Panel extends JFrame {
                 if (panier.catchBall(balle)) {
                     score += 1;
                     labelScore.setText("Score : " + score);
+                    SoundPlayer.playSoundMp3("./sound/pluck-off.mp3");
                     resetBall();
                 }
 

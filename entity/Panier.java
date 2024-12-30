@@ -65,9 +65,10 @@ public class Panier {
     }
 
     public boolean catchBall(Balle balle) {
-        if ((balle.getPositionXBalle() < (this.getPositionXPanier() + this.getWidthPanier())) &&
-                (balle.getPositionXBalle() > (this.getPositionXPanier() - this.getWidthPanier())) &&
-                (balle.getPositionYBalle() == (this.getPositionYPanier() + 20))) {
+        if ((balle.getPositionXBalle() < (this.getPositionXPanier() + this.getWidthPanier() - 10)) &&
+                (balle.getPositionXBalle() > (this.getPositionXPanier() - this.getWidthPanier() + 10)) &&
+                (balle.getPositionYBalle() <= (this.getPositionYPanier() + 30)) && 
+                (balle.getPositionYBalle() >= (this.getPositionYPanier() + 10))) {
             return true;
         }
         return false;

@@ -30,10 +30,10 @@ public class ActionGame implements ActionListener, KeyListener{
             panel.startGame();
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if (panier.getPositionXPanier() > panel.getAlignmentX())
+            if (panier.getPositionXPanier() > panel.getAlignmentX() + 10)
                 panier.setPositionXPanier(panier.getPositionXPanier() - (10*(balle.getBalleSpeed()/2)));
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if (panier.getPositionXPanier() < (panel.getWidth() - panier.getWidthPanier() - 20))
+            if (panier.getPositionXPanier() < (panel.getWidth() - panier.getWidthPanier() - 15))
                 panier.setPositionXPanier(panier.getPositionXPanier() + (10*(balle.getBalleSpeed()/2)));
         }
         panel.repaint();
